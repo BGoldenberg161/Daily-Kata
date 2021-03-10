@@ -1,5 +1,8 @@
 package com.smt.kata.word;
 
+import java.util.*;
+import org.apache.commons.lang3.StringUtils;
+
 /****************************************************************************
  * <b>Title</b>: ReverseWord.java
  * <b>Project</b>: SMT-Kata
@@ -36,6 +39,38 @@ public class ReverseWord {
 	 * @return
 	 */
 	public String processPhrase(String phrase) {
-		return phrase;
+		if(StringUtils.isEmpty(phrase)) {
+			return "";
+		}
+		
+		String trimmed = phrase.trim();
+		String word = "";
+
+		List<String> words=new ArrayList<String>();
+		
+//		String[] words = phrase.split(" ");
+		for(int j = 0; j < trimmed.length(); j++) {
+            char letter = trimmed.charAt(j);
+            if(letter == ' ') {
+                if(word.length() > 0)
+                    words.add(word);
+                word = "";
+            }else {
+                word += letter;
+            }
+        }
+        words.add(word);
+		
+		String result = "";
+		
+		for(int i = 0; i < words.size(); i++) {
+			if(i == 0) {
+				result = words.get(i);
+			}else {
+				result = words.get(i) + " " + result;
+			}
+			System.out.println(result);
+		}
+		return result;
 	}
 }

@@ -34,6 +34,13 @@ import org.apache.commons.lang3.StringUtils;
 public class ReverseWord {
 
 	/**
+	 * 
+	 */
+	public ReverseWord() {
+		super();
+	}
+	
+	/**
 	 * Takes the phrase and reverses the ords
 	 * @param phrase
 	 * @return

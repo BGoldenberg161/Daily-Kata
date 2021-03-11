@@ -1,5 +1,7 @@
 package com.smt.kata.code;
 
+import org.apache.commons.lang3.StringUtils;
+
 /****************************************************************************
  * <b>Title</b>: CreditCardValidator.java
  * <b>Project</b>: Daily-Kata
@@ -44,6 +46,37 @@ public class CreditCardValidator {
 	 * @return
 	 */
 	public boolean isValid(String ccn) {
-		return true;
+		
+		if(StringUtils.isEmpty(ccn) || ccn.matches(".*[a-zA-Z]+.*") || ccn.contains(" ")) {
+			return false;
+		}
+		
+		System.out.println(ccn);
+		String checkDigit = ccn.substring(ccn.length() - 1);
+		String noLast = (ccn.substring(0, ccn.length() - 1));
+		String reversed = new StringBuffer(noLast).reverse().toString();
+		System.out.println(reversed);
+		
+		String[] revArr = reversed.split("");
+		int sum = 0;
+		
+		for(int i = 0; i < revArr.length; i++) {
+			if(i%2 == 0) {
+				int temp = Integer.parseInt(revArr[i]) * 2;
+				if(String.valueOf(temp).length() > 1) {
+					int firstDigit = Integer.parseInt(Integer.toString(temp).substring(0, 1));
+					int secondDigit = Integer.parseInt(Integer.toString(temp).substring(1, 2));
+					temp = firstDigit + secondDigit;
+				}
+				revArr[i] = String.valueOf(temp);
+			}
+			sum += Integer.parseInt(revArr[i]);
+		}
+		
+		String sumString = String.valueOf(sum);
+		String newLast = sumString.substring(sumString.length() - 1);
+		
+		
+		return (10 - Integer.parseInt(newLast) == Integer.parseInt(checkDigit));
 	}
 }

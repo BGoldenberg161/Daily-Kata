@@ -1,7 +1,9 @@
 package com.smt.kata.word;
 
 // JDK 11.x
-import java.util.List;
+import java.util.*;
+
+import org.apache.commons.lang3.StringUtils;
 
 /****************************************************************************
  * <b>Title</b>: BrokenStrings.java
@@ -35,6 +37,42 @@ public class BrokenStrings {
 	 * @return Collection of sliced words
 	 */
 	public List<String> slice(String phrase, int k) {
-		return null;
+		
+		List<String> result = new ArrayList<>();
+		
+		if(StringUtils.isEmpty(phrase)) {
+			return result;
+		}
+		
+		String[] temp = phrase.trim().split(" ");
+		int tempLength = 0;
+		String tempResult = "";
+		for(int i = 0; i < temp.length;i++) {
+//			System.out.println(tempLength);
+			if(temp[i].length() > k) {
+				return new ArrayList<>();
+			}
+			if(tempLength + temp[i].length() <= k) {
+				if (tempResult == "") {
+					tempResult += temp[i];
+				} else {
+					tempResult += (" " + temp[i]);
+				}
+				tempLength = tempResult.length();
+			} else {
+				result.add(tempResult);
+				tempResult = temp[i];
+				tempLength = temp[i].length();
+			}
+			if(i == temp.length - 1) {
+				result.add(tempResult);
+			}
+//			System.out.println(tempResult);
+		}
+		for(String th:result) {
+			System.out.println(th);
+		}
+		
+		return result;
 	}
 }

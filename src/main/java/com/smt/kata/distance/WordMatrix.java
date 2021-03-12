@@ -1,5 +1,7 @@
 package com.smt.kata.distance;
 
+import org.apache.commons.lang3.StringUtils;
+
 // JDK 11.x
 
 /****************************************************************************
@@ -63,6 +65,53 @@ public class WordMatrix {
 	 * @return
 	 */
 	public boolean contains(String phrase) {
-		return phrase.length() == 0;
+		// check empty
+		if(StringUtils.isEmpty(phrase)) {
+			return false;
+		}
+		
+		// check rows
+		// columns
+		for(int i = 0; i < matrix[0].length; i++) {
+			String result = "";
+			// rows
+			for(int j = 0; j < matrix.length; j++) {
+				result += matrix[i][j];
+			}
+			String rev = new StringBuffer(result).reverse().toString();
+			if (result.toLowerCase().contains(phrase.toLowerCase()) || rev.toLowerCase().contains(phrase.toLowerCase())) {
+				return true;
+			}
+		}
+		
+		// check columns
+		// rows
+		for(int i = 0; i < matrix.length; i++) {
+			String result = "";
+			// columns
+			for(int j = 0; j < matrix[0].length; j++) {
+				result += matrix[j][i];
+			}
+			String rev = new StringBuffer(result).reverse().toString();
+			if (result.toLowerCase().contains(phrase.toLowerCase()) || rev.toLowerCase().contains(phrase.toLowerCase())) {
+				return true;
+			}
+		}
+		
+		// check diagonal
+		// top left -->
+		// rows
+		int count = 0;
+		String result = "";
+		for(int i = 0; i < matrix.length; i++) {
+			result += matrix[i][count];
+			count++;
+		}
+		System.out.println(result);
+		String rev = new StringBuffer(result).reverse().toString();
+		if (result.toLowerCase().contains(phrase.toLowerCase()) || rev.toLowerCase().contains(phrase.toLowerCase())) {
+			return true;
+		}
+		return false;
 	}
 }

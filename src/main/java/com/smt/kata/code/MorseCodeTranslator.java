@@ -1,5 +1,7 @@
 package com.smt.kata.code;
 
+import java.util.*;
+
 /****************************************************************************
  * <b>Title</b>: MorseCodeTranslator.java
  * <b>Project</b>: SMT-Kata

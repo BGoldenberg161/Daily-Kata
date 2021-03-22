@@ -1,5 +1,7 @@
 package com.smt.kata.distance;
 
+import org.apache.commons.lang3.StringUtils;
+
 /****************************************************************************
  * <b>Title:</b> RailFenceCypher.java
  * <b>Project:</b> SMT-Kata
@@ -69,7 +71,27 @@ public class RailFenceCypher {
 	 * @return Rail Fence Cypher encoded phrase
 	 */
 	public String encodePhrase(String phrase) {
-		return phrase;
+		if (StringUtils.isEmpty((phrase))){
+            return "";
+        }
+		String newPhrase = phrase.replace(" ", "").toUpperCase().trim();
+		String[] letters = newPhrase.split("");
+		
+		String result = "";
+		//first iteration(skip 3)(start @ 0)
+		for(int i = 0; i < letters.length; i += 4) {
+			result += letters[i];
+		}
+		//second iteration(skip 1)(start @ 1)
+		for(int i = 1; i < letters.length; i += 2) {
+			result += letters[i];
+		}
+		//third iteration(skip 3)(start @ 2)
+		for(int i = 2; i < letters.length; i += 4) {
+			result += letters[i];
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -78,6 +100,25 @@ public class RailFenceCypher {
 	 * @return Matrix of the cypher
 	 */
 	public char[][] getMatrixFromPhrase(String phrase) {
+		if (StringUtils.isEmpty((phrase))){
+            return "";
+        }
+		String newPhrase = phrase.replace(" ", "").toUpperCase().trim();
+		String[] letters = newPhrase.split("");
+		
+		int skip = 3;
+		int timesSkipped = 0;
+		
+		String[][] matrix = new String[2][25];
+		
+		int row = 0;
+		int column = 0;
+		
+		for (int k = 0; k < letters.length; k++) {
+			matrix[row][column]
+		}
+		
+		
 		return new char[0][];
 	}
 

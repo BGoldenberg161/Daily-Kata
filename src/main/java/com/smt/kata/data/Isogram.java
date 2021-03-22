@@ -29,13 +29,11 @@ public class Isogram {
 	 * @return true if an isogram.  False if empty or not an isogram
 	 */
 	public boolean isValidIsogram(String phrase) {
-<<<<<<< HEAD
 		if (StringUtils.isEmpty((phrase))){
             return false;
         }
 		
 		phrase = phrase.toLowerCase().replace(" ", "-");
-		System.out.println(phrase);
 		
 		String temp = "";
 		for(int i = 0; i < phrase.length(); i++) {
@@ -46,16 +44,10 @@ public class Isogram {
 				return false;
 			}else if(letter != '-') {
 				temp += Character.toString(letter);
-				System.out.println(temp);
 			}
 			
 		}
 		
 		return true;
 	}
-=======
-        
-        return phrase == null;
-    }
->>>>>>> 2301c10c22086818251918614b989e44c08a9b12
 }

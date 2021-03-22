@@ -61,6 +61,47 @@ public class SaddlePoints {
 	public SaddlePoints(int[][] matrix) {
 		this.coords = new ArrayList<>();
 		this.matrix = matrix;
+		
+		
+		List<int[]> cordList = new ArrayList<>();
+		
+		//for each row
+		for (int i = 0; i < matrix[0].length; i++) {
+			
+			int rowValue = -1;
+			//find largest value in row
+			for (int j = 0; j < matrix.length; j++) {
+				if(matrix[i][j] >= rowValue) {
+					rowValue = matrix[i][j];
+				}
+			}
+			// get cords for largest locations and add to list
+			for (int j = 0; j < matrix.length; j++) {
+				if(matrix[i][j] == rowValue) {
+					int[] tempCord = {j, i, matrix[i][j]};
+					cordList.add(tempCord);
+				}
+			}
+			
+			//test if less than column values
+			for(int[] vals : cordList ) {
+				boolean check = true;
+				for (int x = 0; x < matrix.length; x++) {
+					
+					if(vals[2] > matrix[vals[0]][x]) {
+						check = false;
+					}
+				}
+				// add to list if pass
+				if (check) {
+					int[] temp = {vals[0], vals[1], vals[2]};
+					System.out.println("x" + temp[0] + " y" + temp[1] + " value " +temp[2]);
+					this.coords.add(temp);
+				}
+			}
+			
+			
+		}
 	}
 	
 	/**
@@ -68,6 +109,7 @@ public class SaddlePoints {
 	 * @return List of int array of column/row/value for all saddle points
 	 */
 	public List<int[]> getCoordinates() {
+		
 		return coords;
 	}
 

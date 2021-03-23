@@ -65,8 +65,12 @@ public class RailFenceCypher {
 		super();
 	}
 
+	/**
+	 * Loops the phrase and performs a Rail Fence Cypher
+	 * @param phrase Phrase to be encoded 
+	 * @return Rail Fence Cypher encoded phrase
+	 */
 	public String encodePhrase(String phrase) {
-<<<<<<< HEAD
 		if (StringUtils.isEmpty((phrase))){
             return "";
         }
@@ -107,29 +111,20 @@ public class RailFenceCypher {
 		
 		String[][] matrix = new String[2][25];
 		
-		int row = 0;
-		int column = 0;
+		int r = 0;
+		int c = 0;
 		
-		for (int k = 0; k < letters.length; k++) {
-			matrix[row][column]
+		for (int i = 0; i < letters.length; i++) {
+			matrix[r][c] = letters[i];
+			if(timesSkipped >= 1) {
+				for(int j = 0; j < skip; j++) {
+					c++;
+					matrix[r][c] = ".";
+				}
+				timesSkipped += 1;
+			}
 		}
-		
-		
 		return new char[0][];
 	}
 
-=======
-        return phrase;
-    }
-    
-    /**
-     * Returns the matrix of the phrase
-     * @param phrase Phrase ot encode into the matrix
-     * @return Matrix of the cypher
-     */
-    public char[][] getMatrixFromPhrase(String phrase) {
-        
-        return new char[0][];
-    }
->>>>>>> 0710e1c902a8a98074af7f66eccc281e04e9c46f
 }

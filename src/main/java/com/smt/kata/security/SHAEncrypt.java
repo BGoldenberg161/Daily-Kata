@@ -1,7 +1,10 @@
 package com.smt.kata.security;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 // JDK 11.x
 import java.security.NoSuchAlgorithmException;
+
 
 /****************************************************************************
  * <b>Title:</b> SHAEncrypt.java
@@ -25,11 +28,14 @@ import java.security.NoSuchAlgorithmException;
  ****************************************************************************/
 public class SHAEncrypt {
 
+	private String hashDigestType;
+
 	/**
 	 * Default constructor.  Assigns SHA-256
 	 */
 	public SHAEncrypt() {
 		super();
+		this.hashDigestType = "SHA-256";
 	}
 	
 	/**
@@ -38,6 +44,7 @@ public class SHAEncrypt {
 	 */
 	public SHAEncrypt(String hashDigestType) {
 		super();
+		this.hashDigestType = hashDigestType;
 	}
 
 	/**
@@ -48,6 +55,26 @@ public class SHAEncrypt {
 	 * @throws InvalidDataException
 	 */
 	public String encrypt(String val) throws NoSuchAlgorithmException {
-		return val;
+		//check null
+		if(val == null) {
+            throw new NullPointerException();
+        }
+		try {
+			MessageDigest digest = MessageDigest.getInstance(this.hashDigestType);
+			byte[] hash = digest.digest(val.getBytes(StandardCharsets.UTF_8));
+			StringBuilder hexString = new StringBuilder();
+			
+			for (int i = 0; i < hash.length; i++) {
+				String hex = Integer.toHexString(0xff & hash[i]);
+				if(hex.length() == 1) {
+					hexString.append('0');
+				}
+				hexString.append(hex);
+			}
+			return hexString.toString();
+		} catch(Exception ex){
+            throw new NoSuchAlgorithmException(ex);
+        }
+	    
 	}
 }

@@ -1,5 +1,8 @@
 package com.smt.kata.distance;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /****************************************************************************
  * <b>Title:</b> LexigraphicOrdering.java
  * <b>Project:</b> SMT-Kata
@@ -55,6 +58,55 @@ public class LexigraphicOrdering {
 	 * @return matrix of data that is properly ordered
 	 */
 	public char[][] orderData(char[][] data) {
-		return data;
+		if(data == null || data.length == 0) {
+			return new char[0][0];
+		}
+		
+		if(data.length == 1) return data;
+		List<Integer> remove = new ArrayList<>(); 
+		
+		for(int i = 0; i < data[0].length; i++) {
+			int charVal = 0;
+			for(int j = 0; j < data.length; j++) {
+				char d = data[j][i];
+				int currentVal = Integer.valueOf(data[j][i]);
+				if (currentVal < charVal) {
+					remove.add(i);
+					break;
+				}else {
+					charVal = currentVal;
+				}
+			}
+		}
+		System.out.println(remove.size());
+		char[][] result;
+		if(data.length == remove.size()) {
+			result = new char[0][0];
+		}else {
+			result = new char[data.length][data[0].length - remove.size()];
+		}
+		
+		if(remove.size() == 0) return data;
+		
+		for(int k = 0; k < data.length; k++) {
+			int column = 0;
+			for(int x = 0; x < data[0].length; x++) {
+				boolean contains = false;
+				for(int y = 0; y < remove.size(); y++) {
+					if (remove.get(y).equals(x)) {
+						System.out.println("contains");
+						contains = true;
+					}
+				}
+				if(contains) {
+					
+				}else {
+					result[k][column] = data[k][x];
+					column++;
+				}
+			}
+			
+		}
+		return result;
 	}
 }

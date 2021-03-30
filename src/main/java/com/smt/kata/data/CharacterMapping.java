@@ -37,7 +37,12 @@ public class CharacterMapping {
 	 */
 	public CharacterMapping(Map<Integer, char[]> digitMap) throws InvalidObjectException {
 		super();
-		throw new InvalidObjectException("Change Me");
+
+		if(digitMap == null || digitMap.isEmpty()) {
+            throw new InvalidObjectException("Null or empty");
+        }
+		
+		this.digitMap = digitMap;
 	}
 
 	/**
@@ -45,7 +50,38 @@ public class CharacterMapping {
 	 * @param locations Locations to concatenate
 	 * @return concatenated string array
 	 */
-	public String[] add(int[] locations) {
-		return new String[0];
-	}
+	 public String[] add(int[] locations) {
+	 	// get longest length
+        int length = 0;
+        for (int i : locations) {
+        	//skip nulls
+            if (digitMap.get(i) == null) {
+            	continue;
+            }
+            // update length if greater
+            if (length < digitMap.get(i).length) {
+            	length = digitMap.get(i).length;
+            }
+        }
+        // setup output strings array
+        String[] output = new String[length];
+        
+        // for each int in locations
+        for (int i : locations) {
+        	// skip nulls
+            if (digitMap.get(i) == null) {
+            	continue;
+            }
+            // add letters to strings
+            for (int j = 0; j < digitMap.get(i).length; j++) {
+            	//create empty string in each location
+                if (output[j] == null) {
+                	output[j] = "";
+                }
+                //add letter
+                output[j] += digitMap.get(i)[j];
+            }
+        }
+        return output;
+    }
 }

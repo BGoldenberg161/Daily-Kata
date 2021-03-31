@@ -74,12 +74,13 @@ public class CharacterMapping {
             }
             // add letters to strings
             for (int j = 0; j < digitMap.get(i).length; j++) {
-            	//create empty string in each location
+            	//create empty string in each location during first iteration
                 if (output[j] == null) {
                 	output[j] = "";
                 }
                 //add letter
                 output[j] += digitMap.get(i)[j];
+                System.out.println(output[j]);
             }
         }
         return output;

@@ -38,14 +38,18 @@ public class SumOfMultiples {
 	 * @return Sum of th multiples
 	 */
 	public int calculate(int maxValue, Integer...factors) {
+		System.out.println("max: " + maxValue);
 		int result = 0;
         for (int i = 0; i < maxValue; i++) {
+        	System.out.println("i: " + i);
             for (int factor : factors) {
+            	System.out.println("Current factor: " + factor);
                 if (i % factor == 0) {
                     result += i;
                     break;
                 }
             }
+            System.out.println("result: " + result);
         }
         return result;
 	}

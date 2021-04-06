@@ -1,5 +1,7 @@
 package com.smt.kata.number;
 
+import org.apache.commons.lang3.StringUtils;
+
 /****************************************************************************
  * <b>Title:</b> CountingParens.java
  * <b>Project:</b> SMT-Kata
@@ -32,6 +34,32 @@ public class CountingParens {
 	 * @return
 	 */
 	public int calculate(String parens) {
-		return parens.length();
+		
+		if(StringUtils.isEmpty(parens)) {
+			return 0;
+		}
+		
+		char[] split = parens.toCharArray();
+		
+		int countOpen = 0;
+		int needed = 0;
+		
+		for(char letter : split) {
+			System.out.println(letter);
+			if (letter == '(') {
+                countOpen++;
+            }
+			if (letter == ')') {
+                if (countOpen <= 0) {
+                    needed++;
+                } else {
+                    countOpen--;
+                }
+            }
+			System.out.println("countOpen: " + countOpen);
+			System.out.println("needed: " + needed);
+		}
+		return Math.abs(countOpen + needed);
+		
 	}
 }

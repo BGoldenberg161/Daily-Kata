@@ -45,7 +45,6 @@ public class CountingParens {
 		int needed = 0;
 		
 		for(char letter : split) {
-			System.out.println(letter);
 			if (letter == '(') {
                 countOpen++;
             }
@@ -56,8 +55,6 @@ public class CountingParens {
                     countOpen--;
                 }
             }
-			System.out.println("countOpen: " + countOpen);
-			System.out.println("needed: " + needed);
 		}
 		return Math.abs(countOpen + needed);
 		

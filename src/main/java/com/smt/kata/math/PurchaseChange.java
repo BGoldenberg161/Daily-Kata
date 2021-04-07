@@ -1,5 +1,6 @@
 package com.smt.kata.math;
 
+import java.util.LinkedHashMap;
 // JDK 11.x
 import java.util.Map;
 
@@ -41,7 +42,6 @@ public class PurchaseChange {
 	 * @return Map with currencies and amounts
 	 */
 	public Map<Currency, Integer> calculate(double purchaseAmount, double moneyPaid) {
-		
-		return null;
+		return coin;
 	}
 }

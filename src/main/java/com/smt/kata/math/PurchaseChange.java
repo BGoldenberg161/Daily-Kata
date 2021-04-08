@@ -1,6 +1,8 @@
 package com.smt.kata.math;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 // JDK 11.x
 import java.util.Map;
 
@@ -42,6 +44,49 @@ public class PurchaseChange {
 	 * @return Map with currencies and amounts
 	 */
 	public Map<Currency, Integer> calculate(double purchaseAmount, double moneyPaid) {
-		return coin;
+	
+		double change = moneyPaid - purchaseAmount;
+		
+		if(change <= 0) {
+			return new LinkedHashMap<Currency, Integer>();
+		}
+		
+		Map<Currency, Integer> result = new LinkedHashMap<Currency, Integer>();
+		result.put(Currency.TWENTY_DOLLAR, 0);
+		result.put(Currency.TEN_DOLLAR, 0);
+		result.put(Currency.FIVE_DOLLAR, 0);
+		result.put(Currency.DOLLAR, 0);
+		result.put(Currency.QUARTER, 0);
+		result.put(Currency.DIME, 0);
+		result.put(Currency.NICKEL, 0);
+		result.put(Currency.PENNY, 0);
+		
+		Map<Double, Currency> coin = new LinkedHashMap<Double, Currency>();
+		coin.put(20.00, Currency.TWENTY_DOLLAR);
+		coin.put(10.00, Currency.TEN_DOLLAR);
+		coin.put(5.00, Currency.FIVE_DOLLAR);
+		coin.put(1.00, Currency.DOLLAR);
+		coin.put(0.25, Currency.QUARTER);
+		coin.put(0.10, Currency.DIME);
+		coin.put(0.05, Currency.NICKEL);
+		coin.put(0.01, Currency.PENNY);
+		
+		List<Double> coinValues = new ArrayList<Double>(coin.keySet());
+		System.out.println("change: " + change);
+		while(change > 0) {
+			for (int i = 0; i < coinValues.size(); i++) {
+				double currentValue = coinValues.get(i);
+				if(change - currentValue >= 0) {
+					Currency resultAdd = coin.get(currentValue);
+					result.put(resultAdd, result.get(resultAdd) + 1);
+					change -= currentValue;
+					change = Math.round(change * 100.0) / 100.0;
+					System.out.println("new change: " + change);
+					break;
+				}
+			}
+		}
+		
+		return result;
 	}
 }

@@ -34,7 +34,34 @@ public class NoOpDivision {
 	 * @return rounded number.  Zero if dividend or divisor is zero
 	 */
 	public int divide(int dividend, int divisor) {
-		return dividend + divisor;
+		int result = 0;
+		boolean trigger = false;
+		if(dividend < 0 && divisor > 0) {
+			trigger = true;
+		}
+		if(dividend > 0 && divisor < 0) {
+			trigger = true;
+		}
+		
+		System.out.println("dividend: " + dividend);
+		System.out.println("divisor: " + divisor);
+		for(int i = 0; i < 10; i++) {
+			System.out.println("counter: " + result);
+			dividend = Math.abs(dividend) - Math.abs(divisor);
+			if(dividend >= 0) {
+				result++;
+			} else {
+				System.out.println(result);
+				if(trigger) {
+					System.out.println("result neg: " + result);
+					return 0 - result;	
+				} else {
+					System.out.println("result: " + result);
+					return result;
+				}
+			}
+		}
+		return 0;
 	}
 
 }

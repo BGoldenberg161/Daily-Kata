@@ -38,25 +38,21 @@ public class NoOpDivision {
 		boolean trigger = false;
 		if(dividend < 0 && divisor > 0) {
 			trigger = true;
+			dividend = Math.abs(dividend);
 		}
 		if(dividend > 0 && divisor < 0) {
 			trigger = true;
+			divisor = Math.abs(divisor);
 		}
 		
-		System.out.println("dividend: " + dividend);
-		System.out.println("divisor: " + divisor);
 		for(int i = 0; i < 10; i++) {
-			System.out.println("counter: " + result);
-			dividend = Math.abs(dividend) - Math.abs(divisor);
+			dividend = dividend - divisor;
 			if(dividend >= 0) {
 				result++;
 			} else {
-				System.out.println(result);
 				if(trigger) {
-					System.out.println("result neg: " + result);
 					return 0 - result;	
 				} else {
-					System.out.println("result: " + result);
 					return result;
 				}
 			}

@@ -42,6 +42,7 @@ class TimeMapTest {
 	 */
 	@Test
 	void testSet() throws Exception {
+		
 		tm.set(1, 3, 0);
 		assertEquals(1, tm.size());
 		assertEquals(3, tm.get(1, 0));

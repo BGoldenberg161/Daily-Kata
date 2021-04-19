@@ -1,5 +1,7 @@
 package com.smt.kata.object;
 
+import org.apache.batik.parser.LengthArrayProducer;
+
 /****************************************************************************
  * <b>Title:</b> TimeMap.java
  * <b>Project:</b> SMT-Kata
@@ -52,21 +54,41 @@ package com.smt.kata.object;
 public class TimeMap<K,V> {
 	
 	// Members
-	protected int defaultSize = 8;
+	protected int defaultSize = 100;
+	protected K key;
+	protected V value;
+	protected int time;
+	
+	private TimeMap<K,V>[] array;
 	
 	/**
 	 * Initializes the array
 	 */
 	public TimeMap() {
 		super();
+		this.array = new TimeMap[defaultSize];
 	}
 	
+	public TimeMap(K key, V value, int time){
+		super();
+		this.key = key;
+		this.value = value;
+		this.time = time;
+	}
+
 	/**
 	 * Size of the Map
 	 * @return integer with the current size
 	 */
 	public int size() {
-		return 0;
+		int count = 0;
+		for(int x = 0; x < this.array.length; x++){
+			if(this.array[x] == null){
+				break;
+			}
+			count++;
+		}
+		return count;
 	}
 
 
@@ -77,7 +99,17 @@ public class TimeMap<K,V> {
 	 * @param time Index of the TimeMap
 	 */
 	public void set(K key, V value, int time) {
-		/** Nothing to do **/
+	
+		for(TimeMap<K,V> item:array) {
+			if(item == null) break;
+			if(key.equals(item.key) && item.time == time) {
+				item.value = value;
+				return;
+			}
+		}
+
+		TimeMap<K,V> newEntry = new TimeMap<K,V>(key,value,time);
+		array[size()] = newEntry;
 	}
 	
 	/**
@@ -86,7 +118,11 @@ public class TimeMap<K,V> {
 	 * @return TimeMap in the provided index.  Null if OOB or missing
 	 */
 	public TimeMap<K,V> get(int index) {
-		return null;
+		if(index >= array.length || index < 0){
+			return null;
+		}
+
+		return array[index];
 	}
 	
 	/**
@@ -96,6 +132,27 @@ public class TimeMap<K,V> {
 	 * @return Value of the matching key and time
 	 */
 	public V get(K key, int time) {
-		return null;
+		if(key == null){
+			return null;
+		}
+		Integer maxDistance = null;
+		Object value = null;
+		for(TimeMap<K,V> item:array) {
+			if(item == null) break;
+			if(key.equals(item.key) && item.time <= time) {
+				if(maxDistance == null){
+					value = item.value;
+					maxDistance = time - item.time;
+				}else if(time - item.time < maxDistance){
+					value = item.value;
+					maxDistance = time - item.time;
+				}
+			}
+		}
+		return (V) value;
+	}
+
+	public String toString(){
+		return key + "|" + value + "|" + time;
 	}
 }

@@ -81,6 +81,7 @@ public class TimeMap<K,V> {
 	 * @return integer with the current size
 	 */
 	public int size() {
+<<<<<<< HEAD
 		int count = 0;
 		for(int x = 0; x < this.array.length; x++){
 			if(this.array[x] == null){
@@ -89,6 +90,9 @@ public class TimeMap<K,V> {
 			count++;
 		}
 		return count;
+=======
+		return defaultSize;
+>>>>>>> eb7b304c234b80c65702c3fc694c8de53dfc06e0
 	}
 
 

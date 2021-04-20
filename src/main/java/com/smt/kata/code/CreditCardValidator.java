@@ -45,6 +45,7 @@ public class CreditCardValidator {
 	 * @return
 	 */
 	public boolean isValid(String ccn) {
+<<<<<<< HEAD
 		
 		if(StringUtils.isEmpty(ccn) || ccn.matches(".*[a-zA-Z]+.*") || ccn.contains(" ")) {
 			return false;
@@ -77,5 +78,8 @@ public class CreditCardValidator {
 		
 		
 		return (10 - Integer.parseInt(newLast) == Integer.parseInt(checkDigit));
+=======
+		return "".equals(ccn);
+>>>>>>> eb7b304c234b80c65702c3fc694c8de53dfc06e0
 	}
 }

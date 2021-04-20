@@ -1,9 +1,14 @@
 package com.smt.kata.word;
 
 // JDK 11.x
+<<<<<<< HEAD
 import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
+=======
+import java.util.ArrayList;
+import java.util.List;
+>>>>>>> eb7b304c234b80c65702c3fc694c8de53dfc06e0
 
 /****************************************************************************
  * <b>Title</b>: BrokenStrings.java
@@ -45,6 +50,7 @@ public class BrokenStrings {
 	 * @return Collection of sliced words
 	 */
 	public List<String> slice(String phrase, int k) {
+<<<<<<< HEAD
 		
 		List<String> result = new ArrayList<>();
 		
@@ -82,5 +88,8 @@ public class BrokenStrings {
 		}
 		
 		return result;
+=======
+		return new ArrayList<>();
+>>>>>>> eb7b304c234b80c65702c3fc694c8de53dfc06e0
 	}
 }

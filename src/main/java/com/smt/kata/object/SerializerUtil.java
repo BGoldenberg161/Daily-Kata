@@ -1,7 +1,11 @@
 package com.smt.kata.object;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 // JDK 11.x
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 
 /****************************************************************************
@@ -24,36 +28,50 @@ import java.io.IOException;
  ****************************************************************************/
 public class SerializerUtil {
 
-	/**
-	 * Determines if the passed object instance can be serialized
-	 * @param o Object to validate
-	 * @return True if the object can be successfully serialized and de-serialized
-	 * and is equal to the original object
-	 */
-	public boolean isSerializable(Object o) {
-		return o == null;
-	}
-	
-	
-	/**
-	 * Converts the object into a byte array stream
-	 * @param inst Object instance to evaluate
-	 * @return byte array of the serialized object
-	 * @throws IOException thrown if the object instance can not be serialized
-	 */
-	public byte[] serialize(Object inst) throws IOException {
-	    return new byte[0];
-	}
+    /**
+     * Determines if the passed object instance can be serialized
+     * @param o Object to validate
+     * @return True if the object can be successfully serialized and de-serialized
+     * and is equal to the original object
+     * @throws Exception 
+     */
+    public boolean isSerializable(Object o) {
+        try {
+        return o.equals(deserialize(serialize(o)));
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    
+    /**
+     * Converts the object into a byte array stream
+     * @param inst Object instance to evaluate
+     * @return byte array of the serialized object
+     * @throws IOException thrown if the object instance can not be serialized
+     */
+    public byte[] serialize(Object inst) throws IOException {
 
-	/**
-	 * Converts the provided byte[] back into the original object
-	 * @param pickled byte array representing the original object
-	 * @return Original object class
-	 * @throws IOException When byte[] can not be processed
-	 * @throws ClassNotFoundException Cannot recreate the original class type
-	 */
-	public Object deserialize(byte[] pickled) 
-	throws IOException, ClassNotFoundException {
-	    return pickled;
-	}
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        oos.writeObject(inst);
+        oos.close();
+        
+        return bos.toByteArray();
+    }
+
+    /**
+     * Converts the provided byte[] back into the original object
+     * @param pickled byte array representing the original object
+     * @return Original object class
+     * @throws IOException When byte[] can not be processed
+     * @throws ClassNotFoundException Cannot recreate the original class type
+     */
+    public Object deserialize(byte[] pickled) throws IOException, ClassNotFoundException {
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(pickled);
+        ObjectInputStream oin = new ObjectInputStream(bis);
+        
+        return oin.readObject();
+    }
 }

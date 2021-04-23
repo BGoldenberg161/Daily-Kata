@@ -1,18 +1,16 @@
 package com.smt.kata.weather;
 
-import java.io.InputStream;
+import java.io.IOException;
 // JDK 11.x
 import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import java.util.Date;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.siliconmtn.io.http.SMTHttpConnectionManager;
-import com.smt.kata.weather.SunriseSunsetVO.Results;
+import com.siliconmtn.io.http.SMTHttpConnectionManager.HttpConnectionType;
+
+import java.util.Date;
 
 /****************************************************************************
  * <b>Title:</b> SunriseSunsetCalculator.java
@@ -38,7 +36,6 @@ public class SunriseSunsetCalculator {
      * Base url for the sunrise sunset calculator
      */
     public static final String SUNRISE_SUNSET_URL = "https://api.sunrise-sunset.org/json?";
-    //https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=today
     protected String status;
     private SunriseSunsetVO results;
     
@@ -54,205 +51,128 @@ public class SunriseSunsetCalculator {
      * @param date
      * @param lat
      * @param lng
-     * @throws Exception 
      * @throws IOException 
      */
-    public SunriseSunsetCalculator(Date date, double lat, double lng) throws Exception {
+    public SunriseSunsetCalculator(Date date, double lat, double lng) {
         super();
+
+        SMTHttpConnectionManager connection = new SMTHttpConnectionManager();
+        String params = "date=" + date + "&lat=" + lat + "&lng="+lng;
         
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd h:m:s").create();
-        StringBuilder path = getBaseURL(date, lat, lng);
-        SunriseSunsetVO sun = new SunriseSunsetVO();
+        System.out.println(SUNRISE_SUNSET_URL + params);
         
         try {
-            URL url = new URL(path.toString());
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            InputStream responseStream = connection.getInputStream();
-            byte[] res =  responseStream.readAllBytes();
-            results = gson.fromJson(new String(res), SunriseSunsetVO.class);
+            String response = new String(connection.getRequestData(SUNRISE_SUNSET_URL+params, null, HttpConnectionType.GET));
+            JsonObject jsonObject = JsonParser.parseString(new String(response)).getAsJsonObject();
             
-        } catch(Exception e) {
-            throw new Exception("Unable to retrieve property info", e);
-        }    
-        
+            System.out.println(jsonObject.get("status").getAsString());
+            
+            status = jsonObject.get("status").getAsString();
+            
+            System.out.println(new String(response));
+            
+            Gson gsonObject = new Gson();
+            results = gsonObject.fromJson(jsonObject.get("results"), SunriseSunsetVO.class);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
-    private StringBuilder getBaseURL(Date date, double lat, double lng) {
-        
-        StringBuilder path = new StringBuilder(128);
-        path.append(SUNRISE_SUNSET_URL).append("?");
-        path.append("&lat=").append(lat);
-        path.append("&lng=").append(lng);
-        path.append("&date=").append(date);
-        return path;
-    }
-    
-    
-    
-    public Results getResults() {
-        return results.getResults();
-    }
-    
-    public String getStatus() {
-        return results.getStatus();
-    }
-  
-     
-}
-
-
-class SunriseSunsetVO implements Serializable {
-
-    private static final long serialVersionUID = -1711126471696728890L;
-    
-    @SerializedName("results")
-    public Results results;
-    
-    @SerializedName("status")
-    public String status;
-    
-
-    public Results getResults() {
+    public SunriseSunsetVO getResults() {
         return results;
     }
-
-
-
-    public void setResults(Results results) {
-        this.results = results;
-    }
-
-
-
+    
+    /**
+     * @return the status
+     */
     public String getStatus() {
         return status;
     }
 
+}
 
+/**
+ *  Inner Class data structure
+ */
+class SunriseSunsetVO implements Serializable {
 
-    public void setStatus(String status) {
-        this.status = status;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1711126471696728890L;
+    
+    private String sunrise;
+    private String sunset;
+    private String solar_noon;
+    private String day_length;
+    private String civil_twilight_begin;
+    private String civil_twilight_end;
+    private String nautical_twilight_begin;
+    private String nautical_twilight_end;
+    private String astronomical_twilight_begin;
+    private String astronomical_twilight_end;
+    
+    
+    public String getAstronomicalTwilightEnd() {
+        return astronomical_twilight_end;
     }
-
-    
-    
-        public class Results implements Serializable    {
-            
-            private static final long serialVersionUID = -7285416811705531406L;
-    
-            @SerializedName("sunrise")
-            public String sunrise;
-            
-            @SerializedName("sunset")
-            public String sunset;
-            
-            @SerializedName("solar_noon")
-            public String solarNoon;
-            
-            @SerializedName("day_length")
-            public String dayLength;
-            
-            @SerializedName("civil_twilight_begin")
-            public String civilTwilightBegin;
-            
-            @SerializedName("civil_twilight_end")
-            public String civilTwilightEnd;
-            
-            @SerializedName("nautical_twilight_begin")
-            public String nauticalTwilightBegin;
-            
-            @SerializedName("nautical_twilight_end")
-            public String nauticalTwilightEnd;
-            
-            @SerializedName("astronomical_twilight_begin")
-            public String astronomicalTwilightBegin;
-            
-            @SerializedName("astronomical_twilight_end")
-            public String astronomicalTwilightEnd;
-            
-            public String getSunrise() {
-                return sunrise;
-            }
-
-            public void setSunrise(String sunrise) {
-                this.sunrise = sunrise;
-            }
-
-            public String getSunset() {
-                return sunset;
-            }
-
-            public void setSunset(String sunset) {
-                this.sunset = sunset;
-            }
-
-            public String getSolarNoon() {
-                return solarNoon;
-            }
-
-            public void setSolarNoon(String solarNoon) {
-                this.solarNoon = solarNoon;
-            }
-
-            public String getDayLength() {
-                return dayLength;
-            }
-
-            public void setDayLength(String dayLength) {
-                this.dayLength = dayLength;
-            }
-
-            public String getCivilTwilightBegin() {
-                return civilTwilightBegin;
-            }
-
-            public void setCivilTwilightBegin(String civilTwilightBegin) {
-                this.civilTwilightBegin = civilTwilightBegin;
-            }
-
-            public String getCivilTwilightEnd() {
-                return civilTwilightEnd;
-            }
-
-            public void setCivilTwilightEnd(String civilTwilightEnd) {
-                this.civilTwilightEnd = civilTwilightEnd;
-            }
-
-            public String getNauticalTwilightBegin() {
-                return nauticalTwilightBegin;
-            }
-
-            public void setNauticalTwilightBegin(String nauticalTwilightBegin) {
-                this.nauticalTwilightBegin = nauticalTwilightBegin;
-            }
-
-            public String getNauticalTwilightEnd() {
-                return nauticalTwilightEnd;
-            }
-
-            public void setNauticalTwilightEnd(String nauticalTwilightEnd) {
-                this.nauticalTwilightEnd = nauticalTwilightEnd;
-            }
-
-            public String getAstronomicalTwilightBegin() {
-                return astronomicalTwilightBegin;
-            }
-
-            public void setAstronomicalTwilightBegin(String astronomicalTwilightBegin) {
-                this.astronomicalTwilightBegin = astronomicalTwilightBegin;
-            }
-
-            public String getAstronomicalTwilightEnd() {
-                return astronomicalTwilightEnd;
-            }
-
-            public void setAstronomicalTwilightEnd(String astronomicalTwilightEnd) {
-                this.astronomicalTwilightEnd = astronomicalTwilightEnd;
-            }
-            
-        
-    
+    public void setAstronomicalTwilightEnd(String astronomicalTwilightEnd) {
+        this.astronomical_twilight_end = astronomicalTwilightEnd;
     }
-
+    public String getAstronomicalTwilightBegin() {
+        return astronomical_twilight_begin;
+    }
+    public void setAstronomicalTwilightBegin(String astronomicalTwilightBegin) {
+        this.astronomical_twilight_begin = astronomicalTwilightBegin;
+    }
+    public String getNauticalTwilightEnd() {
+        return nautical_twilight_end;
+    }
+    public void setNauticalTwilightEnd(String nauticalTwilightEnd) {
+        this.nautical_twilight_end = nauticalTwilightEnd;
+    }
+    public String getNauticalTwilightBegin() {
+        return nautical_twilight_begin;
+    }
+    public void setNauticalTwilightBegin(String nauticalTwilightBegin) {
+        this.nautical_twilight_begin = nauticalTwilightBegin;
+    }
+    public String getCivilTwilightBegin() {
+        return civil_twilight_begin;
+    }
+    public void setCivilTwilightBegin(String civilTwilightBegin) {
+        this.civil_twilight_begin = civilTwilightBegin;
+    }
+    public String getDayLength() {
+        return day_length;
+    }
+    public void setDayLength(String dayLength) {
+        this.day_length = dayLength;
+    }
+    public String getSolarNoon() {
+        return solar_noon;
+    }
+    public void setSolarNoon(String solarNoon) {
+        this.solar_noon = solarNoon;
+    }
+    public String getSunset() {
+        return sunset;
+    }
+    public void setSunset(String sunset) {
+        this.sunset = sunset;
+    }
+    public String getSunrise() {
+        return sunrise;
+    }
+    public void setSunrise(String sunrise) {
+        this.sunrise = sunrise;
+    }
+    public String getCivilTwilightEnd() {
+        return civil_twilight_end;
+    }
+    public void setCivilTwilightEnd(String civilTwilightEnd) {
+        this.civil_twilight_end = civilTwilightEnd;
+    }
 
 }

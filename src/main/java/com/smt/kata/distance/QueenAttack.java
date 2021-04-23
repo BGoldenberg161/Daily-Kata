@@ -1,5 +1,9 @@
 package com.smt.kata.distance;
 
+import java.util.Iterator;
+
+import jakarta.validation.constraints.Null;
+
 /****************************************************************************
  * <b>Title:</b> QueenAttack.java
  * <b>Project:</b> SMT-Kata
@@ -47,9 +51,14 @@ public class QueenAttack {
 	public QueenAttack(char[][] chessboard) {
 		super();
 		
+		for(int i=0;i<=7;i++){
+			for(int j=0;j<=7;j++){
+				chessboard[i][j]='-';
+			}
+		}
 		this.chessboard = chessboard;
 	}
-
+	
 	/**
 	 * Determines if the black and white queen can attach each other in any direction
 	 * @param white coordinate for the white queen
@@ -57,6 +66,73 @@ public class QueenAttack {
 	 * @return true if they can attack in any direction.  False otherwise
 	 */
 	public boolean canAttack(int[] white, int[] black) {
-		return white[0] == black[0];
+		// check length & null case\
+		if (white == null || black == null) return false;
+		if (white.length != 2 || black.length != 2 ) return false;
+			
+		int white_row = white[0];
+		int black_row=black[0];
+		
+		if(checkHorizontal(white_row, black_row)){
+			return true;
+		}
+		
+		int white_col = white[1];
+		int black_col=black[1];
+		
+		if(checkVertical(white_col, black_col)){
+			return true;
+		}
+		
+		if(checkDiag(white, black)){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean checkHorizontal(int a, int b){
+		return a == b;
+	}
+	
+	public boolean checkVertical(int a, int b){
+		return a == b;
+	}
+	
+	//a == smaller values
+	public boolean checkDiag(int[] a, int[] b){
+		//move a up & left
+		int[] tempA = new int[] {a[0], a[1]};
+		while(tempA[0] >= 0 && tempA[1] >= 0){
+			if(tempA[0] == b[0] && tempA[1] == b[1]) return true;
+			tempA[0]--;
+			tempA[1]--;
+		}
+		
+		//move a up & right
+		int[] tempB = new int[] {a[0], a[1]};
+		while(tempB[0] >= 0 && tempB[1] <= 7){
+			if(tempB[0] == b[0] && tempB[1] == b[1]) return true;
+			tempB[0]--;
+			tempB[1]++;
+		}
+		
+		//move a down & right
+		int[] tempC = new int[] {a[0], a[1]};
+		while(tempC[0] <= 7 && tempC[1] <= 7){
+			if(tempC[0] == b[0] && tempC[1] == b[1]) return true;
+			tempC[0]++;
+			tempC[1]++;
+		}
+		
+		//move a down & left
+		int[] tempD = new int[] {a[0], a[1]};
+		while(tempD[0] <= 7 && tempD[1] >= 0){
+			if(tempD[0] == b[0] && tempD[1] == b[1]) return true;
+			tempD[0]++;
+			tempD[1]--;
+		}
+		
+		return false;
 	}
 }

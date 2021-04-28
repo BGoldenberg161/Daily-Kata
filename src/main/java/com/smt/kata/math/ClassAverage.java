@@ -1,5 +1,7 @@
 package com.smt.kata.math;
 
+import java.text.DecimalFormat;
+
 /****************************************************************************
  * <b>Title:</b> ClassAverage.java
  * <b>Project:</b> SMT-Kata
@@ -31,6 +33,21 @@ public class ClassAverage {
 	 * @return Score required to bring down the overall average by 5%
 	 */
 	public String takeDownAverage(String[] scores) {
-		return scores[0];
+		double sum = 0;
+		for(String s: scores) {
+			s = s.replaceAll("%", "");
+			sum += Double.parseDouble(s);
+		}
+		double currentAvg = sum / scores.length;
+		
+		if(currentAvg == 1) return "1%";
+		if(currentAvg == 0) return "0%";
+		
+		double reqScore = (scores.length + 1)*(currentAvg * .95) - sum;
+		reqScore = Math.round(reqScore);
+		DecimalFormat df = new DecimalFormat("##");
+		String result = df.format(reqScore) + "%";
+
+		return result;
 	}
 }

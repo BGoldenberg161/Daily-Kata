@@ -40,6 +40,28 @@ public class HappyNumber {
 	 * @return True if the number is happy.  False otherwise
 	 */
 	public boolean isHappy(int val) {
-		return val == 0;
+		//check null(0) case
+		if(val == 0) return false;
+		
+		//split number to digit array
+		String number = Integer.toString(val);
+		String[] nums = number.split("");
+		int result = 0;
+		
+		
+		// add sum of squares
+		for(String n : nums) {
+			int digit = Integer.parseInt(n);
+			result += Math.pow(digit, 2);
+		}
+		
+		// check result recursion 
+		if(result == 1) {
+			return true;
+		}else if(result == 4){
+			return false;
+		}else {
+			return isHappy(result);
+		}
 	}
 }

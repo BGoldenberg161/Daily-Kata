@@ -1,5 +1,7 @@
 package com.smt.kata.data;
 
+import org.springframework.util.StringUtils;
+
 /****************************************************************************
  * <b>Title:</b> StringSequence.java
  * <b>Project:</b> SMT-Kata
@@ -32,7 +34,11 @@ public class StringSequence {
 	 * @return True if the source string is in the destination.  False otherwise
 	 */
 	public boolean hasSequence(String source, String dest) {
-		return source.equalsIgnoreCase(dest);
+		if(StringUtils.isEmpty(dest)) return false;
+		if(StringUtils.isEmpty(source)) return false;
+
+		
+		return (dest+dest).toLowerCase().contains(source.toLowerCase());
 	}
  
 }

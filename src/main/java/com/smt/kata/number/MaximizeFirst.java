@@ -1,5 +1,9 @@
 package com.smt.kata.number;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /****************************************************************************
  * <b>Title:</b> MaximizeFirst.java
  * <b>Project:</b> SMT-Kata
@@ -41,7 +45,56 @@ public class MaximizeFirst {
 	 * @return Largest swapped number possible
 	 */
 	public int maxPossible(int first, int second) {
-		return first + second;
+		//make arrayList from second
+		String temp = Integer.toString(second);
+		List<Integer> options = new ArrayList<Integer>(temp.length());
+		for (int i = 0; i < temp.length(); i++)
+		{
+			options.add(temp.charAt(i) - '0');
+		}
+		
+		//setup result string
+		String output = "";
+		
+		//loop first to build output
+		for(String d: Integer.toString(first).split("")) {
+			int currentDigit = Integer.parseInt(d);
+			int maxAvailable = getMax(options);
+			if(maxAvailable > currentDigit) {
+				output = output + maxAvailable;
+				int location = getLoc(options, maxAvailable);
+				options.remove(location);
+			} else {
+				output = output + currentDigit;
+			}
+		}
+				
+		return Integer.parseInt(output);
+	}
+	
+	public int getMax(List<Integer> options) {
+		int result = 0;
+		
+		for(int i = 0; i < options.size(); i++) {
+			int current = options.get(i).intValue();
+			if(current > result) {
+				result = current;
+			}
+			
+		}
+		return result;
+	}
+	
+	public int getLoc(List<Integer> options, int max) {
+		int place = -1;
+		
+		for(int i = 0; i < options.size(); i++) {
+			if(options.get(i) == max) {
+				place = i;
+			}
+			
+		}
+		return place;
 	}
 
 }

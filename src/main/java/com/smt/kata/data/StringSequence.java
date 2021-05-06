@@ -36,7 +36,6 @@ public class StringSequence {
 	public boolean hasSequence(String source, String dest) {
 		if(StringUtils.isEmpty(dest)) return false;
 		if(StringUtils.isEmpty(source)) return false;
-
 		
 		return (dest+dest).toLowerCase().contains(source.toLowerCase());
 	}

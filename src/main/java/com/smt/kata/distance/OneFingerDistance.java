@@ -34,6 +34,17 @@ public class OneFingerDistance {
 	 * @return distance between the letters
 	 */
 	public int calculate(String word) {
-		return word.length();
+		if(word == null || word == "" || word.length() == 1) return 0;
+		word = word.toUpperCase();
+		if(!word.matches("^[A-Z]*$")) return 0;
+		
+		int distance = 0;
+		for(int i = 1; i < word.length(); i++) {
+			int tempDistance = Math.abs((int) word.charAt(i) - (int) word.charAt(i-1));
+			if(tempDistance > 0) tempDistance--;
+			
+			distance += tempDistance;
+		}
+		return distance;
 	}
 }

@@ -1,5 +1,6 @@
 package com.smt.kata.time;
 
+import java.util.Calendar;
 // JDK 11.x
 import java.util.Date;
 
@@ -43,6 +44,34 @@ public class FiveLongWeekends {
 	 * @return Date of the five long weekends month.  Null otherwise
 	 */
 	public Date findNext(Date d) {
+		//if first day of month is friday and months contains 31 days, return
+		System.out.println(d);
+		//check null
+		Date blank = new Date();
+		if(d.equals(blank)) return null;
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(d);
+		if (cal.get(Calendar.DAY_OF_MONTH) != 1) {
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            cal.add(Calendar.MONTH, 1);
+        }
+		System.out.println(cal.getTime());
+		boolean found = false;
+		while(!found) {
+			int firstDay = cal.get(Calendar.DAY_OF_WEEK);
+			//if firstDay == 6)friday check month length
+			if(firstDay == 6) {
+				int monthLen = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+				System.out.println(monthLen);
+				if(monthLen == 31) return cal.getTime();
+			}
+			cal.add(Calendar.MONTH,  1);
+		}
+//	            c.add(Calendar.MONTH, 1);
+			
+		
+		
 		return d;
 	}
 

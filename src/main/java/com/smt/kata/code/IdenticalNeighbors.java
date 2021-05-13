@@ -44,6 +44,25 @@ public class IdenticalNeighbors {
 	 * @return
 	 */
 	public int[] parse(int[] elements) {
-		return elements;
+		if(elements == null || elements.length == 0) return new int[0];
+		if(elements.length == 1) return elements;
+		
+		int[] result = new int[elements.length];
+		System.out.println(result.length);
+		int insert = 0;
+		
+		for(int i = 0; i < elements.length - 1; i++) {
+			if(elements[i] != elements[i+1]) {
+				System.out.println("element: " + elements[i]);
+				result[insert] = elements[i];
+				insert++;
+				if(i == elements.length - 1) {
+					result[insert] = elements[i + 1];
+				}
+			} else {
+				i++;
+			}
+		}
+		return result;
 	}
 }

@@ -2,7 +2,10 @@ package com.smt.kata.time;
 
 // JDK 11.x
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /****************************************************************************
  * <b>Title</b>: MostOccurringWeekday.java
@@ -44,14 +47,46 @@ public class MostOccurringWeekday {
 	}
 	
 	/**
-	 * Calculates the most occurring week day fo rthe given year 
+	 * Calculates the most occurring week day for the given year 
 	 * @param year Year to calculate against
 	 * @return Collection of weekdays
 	 */
 	public List<WeekDay> calculate(int year) {
-	
+		if(year == 0) return new ArrayList<>();
+		
+		Map<Integer, WeekDay> days = new LinkedHashMap<>();
+		days.put(1, WeekDay.SUNDAY);
+		days.put(2, WeekDay.MONDAY);
+		days.put(3, WeekDay.TUESDAY);
+		days.put(4, WeekDay.WEDNESDAY);
+		days.put(5, WeekDay.THURSDAY);
+		days.put(6, WeekDay.FRIDAY);
+		days.put(7, WeekDay.SATURDAY);
+		
+		
+		
+		List<WeekDay> result = new ArrayList<>();
+		
+		// get first day
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, 0, 1);
+		int firstDay = cal.get(Calendar.DAY_OF_WEEK);
+		System.out.println("first: " + firstDay);
+		
+		//add day to results
+		result.add(days.get(firstDay));
+		
+		//get last day
+		cal.set(year, 11, 31);
+		int lastDay = cal.get(Calendar.DAY_OF_WEEK);
+		System.out.println("last: " + lastDay);
+		//if last day != first day, add to results
+		if(firstDay != lastDay) {
+			result.add(days.get(lastDay));
+		}
+		
 		// Return the collection of most occurring
-		return new ArrayList<>();
+		return result;
 	}
 
 }

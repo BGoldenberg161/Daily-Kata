@@ -1,4 +1,6 @@
-package com.smt.kata.number;
+ package com.smt.kata.number;
+
+import java.math.BigDecimal;
 
 /****************************************************************************
  * <b>Title</b>: DigitFrequencies.java
@@ -40,6 +42,25 @@ public class DigitFrequencies {
 	 * @return int array with 10 elements containing a count of each digit
 	 */
 	public int[] calculate(int pow) {
-		return null;
+		if(pow == 0) return new int[]{0, 1};
+		int[] result = new int[10];
+		BigDecimal num = new BigDecimal(Math.pow(2, pow));
+		String number = num.toString();
+		if(pow < 0) {
+			for(int i = 1; i < number.length(); i++) {
+				int digit = number.charAt(i) - '0';
+				if(digit != -2) result[digit]++;
+				
+			}
+		}
+		for(int i = 0; i < number.length(); i++) {
+			int digit = number.charAt(i) - '0';
+			if(digit == -2) break;
+			result[digit]++;
+			
+		}
+		
+	
+		return result;
 	}
 }

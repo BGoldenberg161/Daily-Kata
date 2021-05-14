@@ -63,8 +63,6 @@ public class MostOccurringWeekday {
 		days.put(6, WeekDay.FRIDAY);
 		days.put(7, WeekDay.SATURDAY);
 		
-		
-		
 		List<WeekDay> result = new ArrayList<>();
 		
 		// get first day

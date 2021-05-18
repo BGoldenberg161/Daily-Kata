@@ -33,8 +33,24 @@ public class BaseBPalindrome {
 	 * @param base
 	 * @return
 	 */
-	public boolean isPalindrome(int value, int base) {
-		
-		return value == base;
-	}
+	 public boolean isPalindrome(int value, int base) {
+	        if (value == 0) return true;
+	        if (base == 1) return false;
+	        if (value < 0) value *=-1;
+	        
+	        int[] converted = new int[100];
+	        int counter = 0;
+	        
+	        while (value >= base) {
+	            converted[counter++] = value % base;
+	            value = value / base;
+	        }
+	        converted[counter] = value;
+	        
+	        for (int i = 0; i < counter; i++) {
+	            if (converted[i] != converted[counter - i]) return false;
+	        }
+	        
+	        return true;
+	    }
 }

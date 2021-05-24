@@ -30,6 +30,16 @@ package com.smt.kata.object;
  * @since May 24, 2021
  * @updates:
  ****************************************************************************/
+@FunctionalInterface
+interface BooleanFunction {
+	  Boolean run(int n);
+}
+
+@FunctionalInterface
+interface StringFunction {
+	Boolean run(String s);
+}
+
 public class LambdaExpressions {
 	
 	/**
@@ -38,7 +48,12 @@ public class LambdaExpressions {
 	 * @return True if the value is odd.  False otherwise
 	 */
 	public boolean isOdd(int value) {
-		return value == 0;
+		
+		BooleanFunction bf = (n) -> {
+			return n % 2 == 1;
+		};
+		
+		return bf.run(value);
 	}
 	
 	/**
@@ -47,7 +62,13 @@ public class LambdaExpressions {
 	 * @return True if the value is a palindrome.  False otherwise
 	 */
 	public boolean isPalindrome(String value) { 
-		return value == null;
+		
+		StringFunction sf = (s) -> {
+			String reversed = new StringBuilder(value).reverse().toString();
+			return value.equalsIgnoreCase(reversed);
+		};
+		
+		return sf.run(value);
 	}
 	
 	/**
@@ -56,7 +77,22 @@ public class LambdaExpressions {
 	 * @return True if the value is a prime number.  False otherwise
 	 */
 	public boolean isPrime(int value) { 
-		return value == 0;
+		
+		BooleanFunction bf = (n) -> {
+			boolean flag = false;
+			for (int i = 2; i <= value / 2; ++i) {
+				// condition for non-prime number
+				if (value % i == 0) {
+					flag = true;
+					break;
+				}
+			}
+			
+			return !flag;
+		};
+		
+		return bf.run(value);
+		
 	}
 
 }

@@ -1,5 +1,11 @@
 package com.smt.kata.distance;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+
 /****************************************************************************
  * <b>Title</b>: CoinCollector.java
  * <b>Project</b>: SMT-Kata
@@ -26,13 +32,34 @@ package com.smt.kata.distance;
  ****************************************************************************/
 public class CoinCollector {
 
-	/**
-	 * Following various paths,calculate the most coins that can be retrieved
-	 * @param matrix Matrix of coins
-	 * @return Total number of coins collected
-	 */
-	public int collect(int[][] matrix) {
-		
-		return 0;
-	}
+    List<Integer> totals = new ArrayList<Integer>();
+    /**
+     * Following various paths,calculate the most coins that can be retrieved
+     * @param matrix Matrix of coins
+     * @return Total number of coins collected
+     */
+    public int collect(int[][] matrix) {
+        if (matrix == null|| matrix.length <1 || matrix[0].length <1)return 0;
+        findPath(0, 0, matrix, 0);
+        //System.out.println("high" + Collections.max(totals));
+        return Collections.max(totals);
+    }
+    
+    public void findPath (int x, int y, int[][] matrix, int total) {
+        total += matrix[y][x];
+        if (x+1 < matrix[y].length) {
+            System.out.println("matrix " + matrix[y][x]);
+            findPath(x + 1, y, matrix, total);
+        }
+        
+        if (y+1 < matrix.length && matrix[y+1].length > x) {
+            System.out.println("matrix " + matrix[y][x]);
+            findPath(x, y+1, matrix, total);
+        }
+        
+        if (y + 1 == matrix.length && x + 1 == matrix[matrix.length - 1].length) {
+            System.out.println("final");
+            totals.add(total);
+        }
+    }
 }

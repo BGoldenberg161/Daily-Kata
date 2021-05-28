@@ -1,6 +1,8 @@
 package com.smt.kata.distance;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /****************************************************************************
  * <b>Title:</b> MatrixIsland.java
@@ -37,8 +39,11 @@ import java.util.Arrays;
 public class MatrixIsland {
     // Members
     protected int[][] matrix;
+    protected boolean hasIslands = false;
     protected int numberIslands = 0;
     protected int nodesInLargestIsland = 0;
+    protected List<Integer> islands = new ArrayList<>();
+    protected int islaSize = 0;
     
     /**
      * Assigns the matrix
@@ -46,10 +51,17 @@ public class MatrixIsland {
     public MatrixIsland(int[][] matrix) throws NullPointerException {
         super();
         this.matrix = matrix;
-        if(matrix == null || matrix.length == 0) {
-            throw new NullPointerException();
-        }
         countIslands();
+        findLargest();
+    }
+    
+    /**
+     * Finds the largest island and returns the number of nodes in that island
+     * @return Number of nodes in the largest island
+     */
+    protected void findLargest() {
+        if (islands.isEmpty()) nodesInLargestIsland = 0;
+        else nodesInLargestIsland = Collections.max(islands);
     }
     
     /**
@@ -57,29 +69,51 @@ public class MatrixIsland {
      * variables when complete
      */
     protected void countIslands() {
-        for(int i = 0; i < matrix.length; i++) 
-            for(int j = 0; j < matrix[i].length; j++) 
-                if(matrix[i][j] == 1) {
-                    numberIslands++;
-                    nodesInLargestIsland = Math.max(nodesInLargestIsland, exploreIslandFast(i,j,0));
-                }        
+        if (matrix == null || matrix.length <= 0) throw new NullPointerException();
+        for (int y=0; y< matrix.length; y++) {
+            for (int x = 0; x < matrix[y].length; x++) {
+                if (matrix[y][x] == 1) {
+                    hasIslands = true;
+                    checkArround(y, x);
+                    islands.add(islaSize);
+                    islaSize = 0;
+                }
+            }
+        }
+        
+        numberIslands = islands.size();
     }
-
-    /**
-     * @param x
-     * @param y
-     * @param total
-     * @return
-     */
-    protected int exploreIslandFast(int x, int y, int total){
-        return ((x >= 0 && y >= 0 && x <= this.matrix.length - 1 && y <= this.matrix[x].length - 1) && matrix[x][y] == 1 && ((matrix[x][y] = 2) == 2)) ? total = Arrays.asList(exploreIslandFast(x - 1, y,total), exploreIslandFast(x + 1, y,total), exploreIslandFast(x, y + 1, total), exploreIslandFast(x, y - 1, total), 1).stream().reduce(0, (a, b) -> a + b) : 0;
+    public void checkArround(int y, int x) {
+        if (matrix[y][x] == 1) {
+            islaSize++;
+            matrix[y][x] = 0;
+            
+            //check below
+            if (matrix.length > y+1) {
+                checkArround(y+1, x);
+            }
+                
+            // check above
+            if (y-1 >= 0) {
+                checkArround(y-1, x);
+            }
+                
+            // check right
+            if (matrix[0].length > x+1) {
+                checkArround(y, x+1);
+            }
+            // check left
+            if (x-1 >= 0) {
+                checkArround(y, x-1);
+            }    
+        }
     }
 
     /**
      * @return the hasIslands
      */
     public boolean hasIslands() {
-        return numberIslands > 0;
+        return hasIslands;
     }
 
     /**

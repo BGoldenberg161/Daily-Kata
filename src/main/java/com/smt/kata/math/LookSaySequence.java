@@ -33,6 +33,27 @@ public class LookSaySequence {
 	 * @return A look say sequence representing the passe din number
 	 */
 	public int translate(int number) {
-		return number;
-	}
+        String digits = Integer.toString(Math.abs(number));
+        char prev = digits.charAt(0);
+        int counter = 1;
+        String result = "";
+        
+        //if no match add
+        for (int i = 1; i < digits.length(); i++) {
+            if (digits.charAt(i) != prev) {
+            	result += counter + (prev + "");
+            	prev = digits.charAt(i);
+            	counter = 1;
+            // if match count ++
+            } else {
+            	counter ++;
+            }
+        }
+        //check for matching at end
+        if (counter != 0) {
+            result += counter + (prev + "");
+        }
+        
+        return Integer.parseInt(result);
+    }
 }

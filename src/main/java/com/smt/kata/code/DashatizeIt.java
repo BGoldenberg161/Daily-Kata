@@ -57,7 +57,6 @@ public class DashatizeIt {
     			}
     		}
     	}
-    	System.out.println(result);
     	
     	return result;
     }

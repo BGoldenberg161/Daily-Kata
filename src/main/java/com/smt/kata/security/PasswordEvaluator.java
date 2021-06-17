@@ -1,5 +1,9 @@
 package com.smt.kata.security;
 
+import java.util.Arrays;
+
+import org.apache.commons.lang3.StringUtils;
+
 /****************************************************************************
  * <b>Title</b>: PasswordEvaluator.java
  * <b>Project</b>: SMT-Kata
@@ -31,7 +35,12 @@ public class PasswordEvaluator {
 	 * @return True if the password matches all of the rules.  False otherwise
 	 */
 	public boolean isValidPassword(String password, int minLength) {
-		return false;
+		
+		return password.length() < minLength ? false : 
+			Arrays.stream(password.split("")).anyMatch(s -> Character.isLowerCase(s.charAt(0))) &&
+			Arrays.stream(password.split("")).anyMatch(s -> Character.isUpperCase(s.charAt(0))) &&
+			Arrays.stream(password.split("")).anyMatch(s -> Character.isDigit(s.charAt(0))) &&
+			Arrays.stream(password.split("")).anyMatch(s -> !Character.isDigit(s.charAt(0)) && !Character.isLetter(s.charAt(0)));
 	}
 
 }

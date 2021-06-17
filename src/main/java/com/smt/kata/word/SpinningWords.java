@@ -1,5 +1,10 @@
 package com.smt.kata.word;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+
 /****************************************************************************
  * <b>Title</b>: SpinningWords.java 
  * <b>Project</b>: SMT-Kata 
@@ -35,7 +40,12 @@ public class SpinningWords {
 	 * @return String that has been spun.  Empty string otherwise
 	 */
 	public String spin(String input) {
-		return input;
+		
+		return (StringUtils.isEmpty(input)) ? "" : 
+			Arrays.stream(input.split(" "))
+			.map(word -> (word.length() < 5) ? word : 
+				new StringBuilder((word.substring(0,1).toUpperCase() + word.substring(1))).reverse().toString())
+			.collect(Collectors.joining(" "));
     }
 
 }

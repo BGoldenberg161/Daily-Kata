@@ -50,7 +50,7 @@ public class SortSaySequence {
     public int[] reorder(int[] input) {
     	
     	return input == null ? new int[0] : Arrays.stream(input)
-    	.mapToObj(a -> SortSaySequence.units.values()[Math.abs(a)])
+    	.mapToObj(a -> units.values()[Math.abs(a)])
     	.sorted((a, b) -> a.name().toString().compareTo(b.name().toString()))
     	.mapToInt(a -> units.valueOf(a.name()).ordinal()).toArray();
     	

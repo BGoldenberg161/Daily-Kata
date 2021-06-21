@@ -84,4 +84,11 @@ class SmallestDistanceTest {
 	void testCalculateFirstLastMixedCase() throws Exception {
 		assertEquals(6, sd.calculate("HeLLo dog cat cat dog dog cat WORLD", "hello", "world"));
 	}
+	/**
+	 * Test method for {@link com.smt.kata.word.SmallestDistance#calculate(java.lang.String, java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	void testCalculateEndFirst() throws Exception {
+		assertEquals(0, sd.calculate("world dog cat cat dog dog cat HELLO", "hello", "world"));
+	}
 }

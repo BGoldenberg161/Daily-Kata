@@ -31,6 +31,26 @@ public class SmallestDistance {
 	 * @return Number of words between the start and end.  0 if none found
 	 */
 	public int calculate(String phrase, String startWord, String endWord) {
+		if(phrase == null || startWord == null || endWord == null) return 0;
+
+		String[] split = phrase.toLowerCase().split(" ");
+		int counter = 0;
+		boolean start = false;
+		boolean end = false;
+		boolean between = false;
+		for(int i = 0; i < split.length;i++) {
+			if(split[i].equals(endWord.toLowerCase())) {
+				between = false;
+				end = true;
+			}
+			if(between) counter++;
+			if(split[i].equals(startWord.toLowerCase())) {
+				between = true;
+				counter = 0;
+				start = true;
+			}
+		}
+		if(start && end) return counter;
 		return 0;
 	}
 

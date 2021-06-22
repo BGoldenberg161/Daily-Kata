@@ -1,5 +1,6 @@
 package com.smt.kata.tree;
 
+import java.util.ArrayList;
 // JDK 11.x
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.List;
  * @updates:
  ****************************************************************************/
 public class KataTree<T> {
+<<<<<<< HEAD
     // Members
     private KataNode<T> root;
     private int depth = 0;
@@ -90,3 +92,4 @@ public class KataTree<T> {
         return count;
     }
 }
+

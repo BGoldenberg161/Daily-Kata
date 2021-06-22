@@ -1,6 +1,7 @@
 package com.smt.kata.tree;
 
 // JDK 11.x
+import java.util.ArrayList;
 import java.util.List;
 
 /****************************************************************************
@@ -24,41 +25,68 @@ import java.util.List;
  * @updates:
  ****************************************************************************/
 public class KataTree<T> {
-	// Members
-	private KataNode<T> root;
-	private int depth = 0;
-	
-	/**
-	 * Creates a Tree of nodes based upon a Collection of unlinked nodes.  
-	 * Uses the assigned Node as the root node.  The nodeId and the prentId is included
-	 * in each node in the list.  Builds the 
-	 * @param data Collection of unlinked Node objects
-	 * @param root Root Node object
-	 */
-	public KataTree(List<KataNode<T>> data,  KataNode<T> root) {
-		/** Intentionally Blank.  Please build **/
-	}
-	
-	/**
-	 * Returns the total depth of the tree
-	 * @return
-	 */
-	public int getDepth() { return depth; }
-	
-	/**
-	 * Retrieves the root node, which, if the tree is built properly, would contain 
-	 * the entire tree object
-	 * @return Root node for this tree
-	 */
-	public KataNode<T> getRootNode() {
-		return root;
-	}
-	
-	/**
-	 * Calculates the total number of nodes
-	 * @return Total number of nodes calculated
-	 */
-	public int getTotalNodeCount() {
-		return 0;
-	}
+    // Members
+    private KataNode<T> root;
+    private int depth = 0;
+    
+    /**
+     * Creates a Tree of nodes based upon a Collection of unlinked nodes.  
+     * Uses the assigned Node as the root node.  The nodeId and the prentId is included
+     * in each node in the list.  Builds the 
+     * @param data Collection of unlinked Node objects
+     * @param root Root Node object
+     */
+    public KataTree(List<KataNode<T>> data,  KataNode<T> root) {
+        /** Intentionally Blank.  Please build **/
+        this.root = root;
+        recursivelyAddChildren(root, data);
+    }
+
+    public void recursivelyAddChildren(KataNode<T> node, List<KataNode<T>> list) {
+        List<KataNode<T>> children = new ArrayList<>();
+        for(KataNode<T> n : list) {
+            if (n.getParentId().equals(node.getNodeId())) {
+                children.add(n);
+                recursivelyAddChildren(n, list);
+            }
+        }
+        node.setChildren(children);
+    }
+    
+    /**
+     * Returns the total depth of the tree
+     * @return
+     */
+    public int getDepth() { return countDepth(root); }
+
+    private int countDepth(KataNode<T> node) {
+        int maxdepth = 0;
+        for(KataNode<T> n : node.getChildren()) {
+            maxdepth = Math.max(countDepth(n),maxdepth);
+        }
+        return 1 + maxdepth;
+    }
+    /**
+     * Retrieves the root node, which, if the tree is built properly, would contain 
+     * the entire tree object
+     * @return Root node for this tree
+     */
+    public KataNode<T> getRootNode() {
+        return root;
+    }
+    
+    /**
+     * Calculates the total number of nodes
+     * @return Total number of nodes calculated
+     */
+    public int getTotalNodeCount() {
+        return countNodes(this.root);
+    }
+    private int countNodes(KataNode<T> node) {
+        int count = 1;
+        for(KataNode<T> n : node.getChildren()) {
+            count += countNodes(n);
+        }
+        return count;
+    }
 }

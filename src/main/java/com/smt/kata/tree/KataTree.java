@@ -26,7 +26,6 @@ import java.util.List;
  * @updates:
  ****************************************************************************/
 public class KataTree<T> {
-<<<<<<< HEAD
     // Members
     private KataNode<T> root;
     private int depth = 0;

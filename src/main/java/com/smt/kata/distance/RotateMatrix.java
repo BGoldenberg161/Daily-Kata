@@ -42,21 +42,45 @@ package com.smt.kata.distance;
  ****************************************************************************/
 public class RotateMatrix {
 
-	/**
-	 * Rotates a matrix in the clockwise direction
-	 * @param matrix Matrix to rotate clockwise
-	 * @return Rotated matrix.  Empty matrix of input is null
-	 */
+    /**
+     * Rotates a matrix in the clockwise direction
+     * @param matrix Matrix to rotate clockwise
+     * @return Rotated matrix.  Empty matrix of input is null
+     */
 	public int[][] rotateClockwise(int[][] matrix) {
-		return new int[0][0];
-	}
-	
-	/**
-	 * Rotates a matrix in the counter-clockwise direction
-	 * @param matrix Matrix to rotate clockwise
-	 * @return Rotated matrix.  Empty matrix of input is null
-	 */
-	public int[][] rotateCounterClockwise(int[][] matrix) {
-		return new int[0][0];
-	}
+  
+      if(matrix == null) return new int[0][0];
+      
+      int len = matrix.length;
+      int[][] result = new int[len][len];
+      
+      for(int i = 0; i < len; i++) {
+          for(int j = 0; j < len; j++) {
+              result[j][len - 1 - i] = matrix[i][j];
+          }
+      }
+      return result; 
+  }
+  
+  /**
+   * Rotates a matrix in the counter-clockwise direction
+   * @param matrix Matrix to rotate clockwise
+   * @return Rotated matrix.  Empty matrix of input is null
+   */
+  public int[][] rotateCounterClockwise(int[][] matrix) {
+      
+      if(matrix == null) return new int[0][0];
+      
+      int len = matrix.length;
+      int[][] result = new int[len][len];
+      
+      for(int i = 0; i< len; i++) {
+          for(int j  = 0; j< len; j++) {
+              result[len - j - 1][i] = matrix[i][j];
+          }
+      }
+      
+      return result;
+  }
+    
 }

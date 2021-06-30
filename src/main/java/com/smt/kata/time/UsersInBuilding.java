@@ -32,42 +32,61 @@ import java.util.Date;
  ****************************************************************************/
 public class UsersInBuilding {
 
-	protected enum EntryType { ENTER, EXIT }
-	
-	/**
-	 * Initializes the counts and transactions
-	 */
-	public UsersInBuilding() {
-		super();
-	}
+    protected enum EntryType { ENTER, EXIT }
+    Response busiesttime;
+    int count;
+    
+    /**
+     * Initializes the counts and transactions
+     */
+    public UsersInBuilding() {
+        super();
+        busiesttime = new Response();
+        count = 0;
+    }
 
-	/**
-	 * Adds an entry of users entering or exiting the 
-	 * @param entryTime Time of the transaction
-	 * @param count Number of people 
-	 * @param type Entering or exiting the building
-	 */
-	public void addEntry(Date entryTime, int count, EntryType type) {
-		/** Add something here **/
-	}
-	
-	/**
-	 * Calculates the busy period for the day
-	 * @return
-	 */
-	public Response getBusyPeriod() {
-		return new Response();
-	}
+    /**
+     * Adds an entry of users entering or exiting the 
+     * @param entryTime Time of the transaction
+     * @param count Number of people 
+     * @param type Entering or exiting the building
+     */
+    public void addEntry(Date entryTime, int count, EntryType type) {
+        if (busiesttime.getStart() == null)
+            busiesttime.start = entryTime;
+        
+        if (type.equals(EntryType.ENTER))
+            busiesttime.count += count;
+        else {
+            if (busiesttime.count == count)
+                busiesttime.end = entryTime;
+            busiesttime.count -= count;
+        }
+        
+        if (busiesttime.count > count) {
+            count = busiesttime.count;
+            busiesttime.start = entryTime;
+        } 
+    }
+    
+    /**
+     * Calculates the busy period for the day
+     * @return
+     */
+    public Response getBusyPeriod() {
+        busiesttime.count = count;
+        return busiesttime;
+    }
 
-	/**
-	 * Simple object to hold the response
-	 */
-	class Response {
-		Date start;
-		Date end;
-		int count = 0;
-		public Date getStart() { return start;}
-		public Date getEnd() { return end; }
-		public int getCount() { return count; }
-	}
+    /**
+     * Simple object to hold the response
+     */
+    class Response {
+        Date start;
+        Date end;
+        int count = 0;
+        public Date getStart() { return start;}
+        public Date getEnd() { return end; }
+        public int getCount() { return count; }
+    }
 }

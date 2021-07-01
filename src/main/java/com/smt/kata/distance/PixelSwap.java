@@ -1,5 +1,8 @@
 package com.smt.kata.distance;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /****************************************************************************
  * <b>Title</b>: PixelSwap.java
  * <b>Project</b>: SMT-Kata
@@ -45,13 +48,30 @@ public class PixelSwap {
 		if(coords[0] > pixels[0].length || coords[1] > pixels.length) return new char[0][0];
 		char changeColor = pixels[coords[0]][coords[1]];
 		
+		List<int[]> swapped = new ArrayList<int[]>();
+		
 		for(int i = 0; i < pixels.length; i++) {
 			for(int j = 0; j < pixels[0].length; j++) {
 				if(pixels[i][j] == changeColor) {
 					pixels[i][j] = color;
+					swapped.add(new int[] {i, j});
 				}
 			}
 		}
+		
+		
 		return pixels;
+	}
+	
+	public boolean checkAdj(int[] coords, char changeColor, char[][] pixels) {
+		boolean change = false;
+		//check right
+		for(int i = 0; i < pixels[0].length; i++) {
+			
+		}
+		//check up
+		//check down
+		//check left
+		return true;
 	}
 }

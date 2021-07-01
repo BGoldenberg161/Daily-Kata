@@ -41,6 +41,17 @@ public class PixelSwap {
 	 * @return Updated pixel map
 	 */
 	public char[][] swap(char[][] pixels, int[] coords, char color) {
+		if(pixels == null || coords == null) return new char[0][0];
+		if(coords[0] > pixels[0].length || coords[1] > pixels.length) return new char[0][0];
+		char changeColor = pixels[coords[0]][coords[1]];
+		
+		for(int i = 0; i < pixels.length; i++) {
+			for(int j = 0; j < pixels[0].length; j++) {
+				if(pixels[i][j] == changeColor) {
+					pixels[i][j] = color;
+				}
+			}
+		}
 		return pixels;
 	}
 }

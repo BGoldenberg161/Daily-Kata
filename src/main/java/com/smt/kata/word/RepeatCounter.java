@@ -34,6 +34,15 @@ public class RepeatCounter {
 	 * @return Map with each object and it's count
 	 */
 	public Map<Object, Integer> calculate(Object[] items) {
+		if(items == null) return new HashMap<>();
+		
+		for(Object item: items) {
+			if(counter.get(item) == null) {
+				counter.put(item, 1);
+			}else {
+				counter.replace(item, counter.get(item) + 1);
+			}
+		}
 		return counter;
 	}
 	
@@ -58,5 +67,19 @@ public class RepeatCounter {
 		public Object getValue() { return value; }
 		public void setKey(Object key) { this.key = key; }
 		public void setValue(Object value) { this.value = value; }
+		
+		@Override
+		public int hashCode() {
+			return key.hashCode();
+		}
+		
+		@Override
+        public boolean equals(Object obj) {
+            if (obj instanceof MyBean) {
+                MyBean b = (MyBean) obj;
+                return b.key.equals(key);
+            }else 
+            	return false;
+        }
 	}
 }
